@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: libretranslate
+    env: python
+    buildCommand: pip install -r libretranslate/requirements.txt
+    startCommand: ./start.sh
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: LT_HOST
+        value: 0.0.0.0
