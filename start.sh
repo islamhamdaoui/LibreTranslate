@@ -1,6 +1,10 @@
 #!/bin/bash
-# Update models first
-python3 -m libretranslate --update-models
+# Create directory for prometheus metrics
+mkdir -p /tmp/prometheus_data
+rm -rf /tmp/prometheus_data/*
+
+# Update models
+python3 -m libretranslate --update-models || true
 
 # Start the application using gunicorn with the wsgi entry point
-gunicorn --bind 0.0.0.0:$PORT 'wsgi:app' 
+exec gunicorn --bind 0.0.0.0:$PORT 'wsgi:app' 

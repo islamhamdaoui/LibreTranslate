@@ -2,10 +2,17 @@ services:
   - type: web
     name: libretranslate
     env: python
-    buildCommand: pip install -r libretranslate/requirements.txt
-    startCommand: ./start.sh
+    buildCommand: |
+      pip install -r libretranslate/requirements.txt
+      chmod +x build.sh
+      ./build.sh
+    startCommand: gunicorn 'wsgi:app' --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.11
       - key: LT_HOST
         value: 0.0.0.0
+      - key: LT_UPDATE_MODELS
+        value: true
+      - key: PROMETHEUS_MULTIPROC_DIR
+        value: /tmp/prometheus_data
