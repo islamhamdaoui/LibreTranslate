@@ -1233,7 +1233,8 @@ def create_app(args):
             return override_lang
         return session.get('preferred_lang', request.accept_languages.best_match(get_available_locale_codes()))
 
-    Babel(app, locale_selector=get_locale)
+    babel = Babel(app)
+    babel.localeselector(get_locale)
 
     app.jinja_env.globals.update(_e=gettext_escaped, _h=gettext_html)
 
