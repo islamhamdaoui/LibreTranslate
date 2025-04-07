@@ -3,8 +3,9 @@
 mkdir -p /tmp/prometheus_data
 rm -rf /tmp/prometheus_data/*
 
-# Update models
-python3 -m libretranslate --update-models || true
+# Set environment variables to limit model loading
+export LT_UPDATE_MODELS=false
+export LT_LOAD_ONLY=en,es,fr,de,it,pt,ru,zh,ja,ko
 
 # Start the application using gunicorn with the wsgi entry point
-exec gunicorn --bind 0.0.0.0:$PORT 'wsgi:app' 
+exec gunicorn --bind 0.0.0.0:$PORT --timeout 300 --workers 1 'wsgi:app' 
